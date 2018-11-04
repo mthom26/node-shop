@@ -1,0 +1,22 @@
+{
+  "name": "shop-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "nodemon app.js",
+    "build-css": "node-sass scss/main.scss public/css/main.css"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "express-handlebars": "^3.0.0",
+    "handlebars": "^4.0.12",
+    "node-sass": "^4.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.5"
+  }
+}
