@@ -12,15 +12,17 @@
     <nav class="nav">
       <a class="navLink" href="/">Home</a>
       <a class="navLink" href="/products">Shop</a>
+      {{#if isAuthenticated }}
       <a class="navLink" href="/cart">Cart</a>
       <a class="navLink" href="/orders">Orders</a>
-      <a class="navLink" href="/login">Login</a>
       <form action="/logout" method="POST">
         <input type="hidden" name="_csrf" value={{ csrfToken }} />
         <button class="navLink" type="submit">Logout</button>
       </form>
+      {{else}}
+      <a class="navLink" href="/login">Login</a>
       <a class="navLink" href="/signup">Sign Up</a>
-      
+      {{/if}}
     </nav>
   </header>
   {{{ body }}}

@@ -40,7 +40,8 @@ app.use(async (req, res, next) => {
     // No user on request
     return next();
   }
-  // Otherwise find user and attach it to request
+  // Otherwise user is present so set isAuthenticated
+  res.locals.isAuthenticated = true;
   return next();
 });
 
