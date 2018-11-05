@@ -1,9 +1,11 @@
+require('dotenv').config();
 const express = require('express');
 const expressHbs = require('express-handlebars');
 const bodyParser = require('body-parser');
 const path = require('path');
 
 const shopRoutes = require('./routes/shop');
+const db = require('./models');
 
 const app = express();
 
