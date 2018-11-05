@@ -16,6 +16,7 @@
       <a class="navLink" href="/orders">Orders</a>
       <a class="navLink" href="/login">Login</a>
       <form action="/logout" method="POST">
+        <input type="hidden" name="_csrf" value={{ csrfToken }} />
         <button class="navLink" type="submit">Logout</button>
       </form>
       <a class="navLink" href="/signup">Sign Up</a>

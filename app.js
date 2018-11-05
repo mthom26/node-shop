@@ -5,6 +5,7 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const csurf = require('csurf');
 
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
@@ -15,6 +16,7 @@ const sessionStore = new MongoDBStore({
   uri: process.env.DATABASE_URI,
   collection: 'sessions'
 });
+const csrfProtection = csurf();
 
 app.engine('hbs', expressHbs({
   defaultLayout: 'main',
@@ -30,6 +32,8 @@ app.use(session({
   saveUninitialized: false,
   store: sessionStore
 }));
+// csrf should be after the session
+app.use(csrfProtection);
 
 app.use(async (req, res, next) => {
   if(!req.session.user) {
@@ -38,6 +42,11 @@ app.use(async (req, res, next) => {
   }
   // Otherwise find user and attach it to request
   return next();
+});
+
+app.use(async (req, res, next) => {
+  res.locals.csrfToken = req.csrfToken();
+  next();
 });
 
 app.use(authRoutes);
