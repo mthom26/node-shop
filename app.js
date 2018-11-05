@@ -5,6 +5,8 @@ const bodyParser = require('body-parser');
 const path = require('path');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
+
+const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
 const db = require('./models');
 
@@ -38,6 +40,7 @@ app.use(async (req, res, next) => {
   return next();
 });
 
+app.use(authRoutes);
 app.use(shopRoutes);
 
 const PORT = process.env.PORT || 3000;
