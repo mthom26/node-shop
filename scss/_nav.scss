@@ -1,0 +1,19 @@
+.nav {
+  border: 1px solid red;
+  background: $color-dark;
+  display: flex;
+  justify-content: flex-end;
+}
+
+a {
+  &.navLink {
+    color: $color-light;
+    padding: 0.4rem 1rem;
+  }
+
+  &.navLink:hover {
+    color: $color-light;
+    text-decoration: none;
+    background: transparentize($color: $color-light, $amount: 0.8);
+  }
+}

@@ -271,6 +271,17 @@ template {
 [hidden] {
   display: none !important; }
 
-h1 {
-  border: 1px solid #f26554;
-  padding: 20px; }
+.nav {
+  border: 1px solid red;
+  background: #212121;
+  display: flex;
+  justify-content: flex-end; }
+
+a.navLink {
+  color: #f2f2f2;
+  padding: 0.4rem 1rem; }
+
+a.navLink:hover {
+  color: #f2f2f2;
+  text-decoration: none;
+  background: rgba(242, 242, 242, 0.2); }
