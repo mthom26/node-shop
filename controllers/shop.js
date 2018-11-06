@@ -28,9 +28,19 @@ const getCart = async (req, res) => {
   res.redirect('/');
 };
 
+const postCart = async (req, res) => {
+  console.log(req.session.user._id);
+  const user = await db.User.findById(req.session.user._id);
+  const { id } = req.body;
+  await user.addToCart(id);
+  //console.log(`Controller: ${req.body.id}`);
+  res.redirect('/products');
+};
+
 module.exports = {
   getHome,
   getProducts,
   getProductById,
-  getCart
+  getCart,
+  postCart
 };
