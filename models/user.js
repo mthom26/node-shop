@@ -53,7 +53,22 @@ userSchema.methods.addToCart = async function(productId) {
 };
 
 userSchema.methods.removeFromCart = async function(productId) {
-
+  const updatedProduct = this.cart.items.filter(item => {
+    return item.productId.toString() === productId;
+  });
+ 
+  const updatedCart = { ...this.cart };
+  updatedCart.items = updatedCart.items.filter(item => {
+    return item.productId.toString() !== productId;
+  });
+  
+  updatedProduct[0].quantity = updatedProduct[0].quantity - 1;
+  if(updatedProduct[0].quantity > 0) {
+    updatedCart.items.push(updatedProduct[0]);
+  }
+  
+  this.cart = updatedCart;
+  return this.save();
 };
 
 const User = mongoose.model('User', userSchema);

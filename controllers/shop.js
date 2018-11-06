@@ -44,10 +44,19 @@ const postCart = async (req, res) => {
   res.redirect('/products');
 };
 
+const postRemoveCart = async (req, res) => {
+  const user = await db.User.findById(req.session.user._id);
+  const { id } = req.body;
+  await user.removeFromCart(id);
+  //console.log(`Controller: ${req.body.id}`);
+  res.redirect('/products');
+};
+
 module.exports = {
   getHome,
   getProducts,
   getProductById,
   getCart,
-  postCart
+  postCart,
+  postRemoveCart
 };
