@@ -1,0 +1,15 @@
+<main>
+  <h1>Shop Page</h1>
+  <div class="productsContainer">
+    {{#each products }}
+    {{> shop/productCard
+      csrfToken=../csrfToken
+      name=name
+      price=price
+      description=description
+      imageUrl=imageUrl
+      _id=_id
+    }}
+    {{/each}}
+  </div>
+</main>

@@ -1,7 +1,7 @@
 const db = require('../models');
 
 const getLogin = async (req, res) => {
-  res.render('login', {
+  res.render('auth/login', {
     pageTitle: 'Login'
   });
 };
@@ -25,7 +25,7 @@ const postLogin = async (req, res) => {
 };
 
 const getSignUp = async (req, res) => {
-  res.render('signup', {
+  res.render('auth/signup', {
     pageTitle: 'Sign Up'
   });
 };

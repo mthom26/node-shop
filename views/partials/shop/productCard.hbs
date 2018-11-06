@@ -1,0 +1,13 @@
+<div class="productCard">
+  <h2>{{ name }}</h2>
+  <h3>£{{ price }}</h3>
+  <img style="width: 100%;" src="{{ imageUrl }}" />
+  <p>{{ description }}</p>
+
+  <form style="display: inline;" action="/cart" method="POST">
+    <button type="submit">Add To Cart</button>
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+    <input type="hidden" name="id" value="{{ _id }}" />
+  </form>
+  <button><a href="/products/{{ _id }}">Details</a></button>
+</div>

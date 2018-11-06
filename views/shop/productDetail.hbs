@@ -1,0 +1,10 @@
+<main>
+  <h1>Product Details: {{ product.name }}</h1>
+  <p>{{ product.description }}</p>
+  <p>{{ product.price }}</p>
+  <form style="display: inline;" action="/cart" method="POST">
+    <button type="submit">Add To Cart</button>
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+    <input type="hidden" name="id" value="{{ product._id }}" />
+  </form>
+</main>
