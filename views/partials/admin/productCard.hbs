@@ -4,8 +4,9 @@
   <img style="width: 100%;" src="{{ imageUrl }}" />
   <p>{{ description }}</p>
 
-  <button><a href="/admin/edit-product/{{ id }}">Edit</a></button>
-  <form style="display: inline;" action="/admin/delete-product/{{ id }}" method="POST">
+  <button><a href="/admin/edit-product/{{ _id }}">Edit</a></button>
+  <form style="display: inline;" action="/admin/delete-product/{{ _id }}" method="POST">
+    <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
     <button type="submit">Delete</button>
   </form>
 </div>

@@ -2,7 +2,14 @@
   <h1>Admin Products</h1>
   <div class="productsContainer">
     {{#each products}}
-    {{> admin/productCard }}
+    {{> admin/productCard
+      csrfToken=../csrfToken
+      name=name
+      price=price
+      description=description
+      imageUrl=imageUrl
+      _id=_id
+    }}
     {{/each}}
   </div>
   

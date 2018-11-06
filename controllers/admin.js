@@ -25,10 +25,41 @@ const postAddProduct = async (req, res) => {
   });
   await newProduct.save();
   res.redirect('/admin/products');
-}
+};
+
+const getEditProduct = async (req, res) => {
+  const { productId } = req.params;
+  const product = await db.Product.findById(productId);
+  console.log(product);
+  res.render('admin/editProduct', {
+    pageTitle: `Edit Product: `,
+    product
+  });
+};
+
+const postEditProduct = async (req, res) => {
+  const { productId } = req.params;
+  const { name, price, imageUrl, description } = req.body;
+  await db.Product.findByIdAndUpdate(productId, {
+    name,
+    price,
+    imageUrl,
+    description
+  });
+  res.redirect('/admin/products');
+};
+
+const postDeleteProduct = async (req, res) => {
+  const { productId } = req.params;
+  await db.Product.findByIdAndDelete(productId);
+  res.redirect('/admin/products');
+};
 
 module.exports = {
   getProducts,
   getAddProduct,
-  postAddProduct
+  postAddProduct,
+  getEditProduct,
+  postEditProduct,
+  postDeleteProduct
 };
