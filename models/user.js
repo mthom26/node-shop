@@ -52,6 +52,10 @@ userSchema.methods.addToCart = async function(productId) {
   return this.save();
 };
 
+userSchema.methods.removeFromCart = async function(productId) {
+
+};
+
 const User = mongoose.model('User', userSchema);
 
 module.exports = User;

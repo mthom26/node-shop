@@ -1,0 +1,20 @@
+<main>
+  <h1>Cart for: {{ userEmail }}</h1>
+  {{#each cart}}
+      <div class="cart-product">
+        <p>Product: {{ productId.name }}</p>
+        <p>ID: {{ productId._id }}</p>
+        <p>Quantity: {{ quantity }}</p>
+        <form style="display: inline;" action="/cart" method="POST">
+          <button type="submit">+</button>
+          <input type="hidden" name="id" value="{{ productId._id }}" />
+          <input type="hidden" name="_csrf" value="{{ ../csrfToken }}" />
+        </form>
+        <form style="display: inline;" action="/cart/remove" method="POST">
+          <button type="submit">-</button>
+          <input type="hidden" name="id" value="{{ productId._id }}" />
+          <input type="hidden" name="_csrf" value="{{ ../csrfToken }}" />
+        </form>
+      </div>
+    {{/each}}
+</main>

@@ -25,7 +25,14 @@ const getProductById = async (req, res) => {
 };
 
 const getCart = async (req, res) => {
-  res.redirect('/');
+  const user = await db.User.findById(req.session.user._id);
+  await user.populate('cart.items.productId').execPopulate();
+  console.log(user.cart.items);
+  res.render('shop/cart', {
+    pageTitle: 'Cart',
+    cart: user.cart.items,
+    userEmail: user.email
+  });
 };
 
 const postCart = async (req, res) => {
