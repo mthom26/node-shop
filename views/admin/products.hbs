@@ -1,3 +1,9 @@
 <main>
   <h1>Admin Products</h1>
+  <div class="productsContainer">
+    {{#each products}}
+    {{> admin/productCard }}
+    {{/each}}
+  </div>
+  
 </main>

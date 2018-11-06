@@ -285,3 +285,13 @@ a.navLink:hover {
   color: #f2f2f2;
   text-decoration: none;
   background: rgba(242, 242, 242, 0.2); }
+
+.productCard {
+  border: 1px solid red; }
+
+.productsContainer {
+  border: 1px solid orangered;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  justify-items: stretch; }

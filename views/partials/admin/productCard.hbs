@@ -1,0 +1,11 @@
+<div class="productCard">
+  <h2>{{ name }}</h2>
+  <h3>£{{ price }}</h3>
+  <img style="width: 100%;" src="{{ imageUrl }}" />
+  <p>{{ description }}</p>
+
+  <button><a href="/admin/edit-product/{{ id }}">Edit</a></button>
+  <form style="display: inline;" action="/admin/delete-product/{{ id }}" method="POST">
+    <button type="submit">Delete</button>
+  </form>
+</div>

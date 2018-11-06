@@ -11,3 +11,4 @@ mongoose.connect(process.env.DATABASE_URI, (err) => {
 });
 
 module.exports.User = require('./user');
+module.exports.Product = require('./product');
