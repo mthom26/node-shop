@@ -40,7 +40,8 @@ const postSignUp = async (req, res) => {
   }
   const newUser = new db.User({
     email,
-    password
+    password,
+    isAdmin: false
   });
   newUser.save();
   req.session.user = newUser;

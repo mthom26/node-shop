@@ -11,10 +11,19 @@
   <header>
     <nav class="nav">
       <a class="navLink" href="/">Home</a>
+      {{#if isAdmin }}
+      {{else}}
       <a class="navLink" href="/products">Shop</a>
+      {{/if}}
+      
       {{#if isAuthenticated }}
+      {{#if isAdmin }}
+      <a class="navLink" href="/admin/add-product">Add Product</a>
+      <a class="navLink" href="/admin/products">Products</a>
+      {{else}}
       <a class="navLink" href="/cart">Cart</a>
       <a class="navLink" href="/orders">Orders</a>
+      {{/if}}
       <form action="/logout" method="POST">
         <input type="hidden" name="_csrf" value={{ csrfToken }} />
         <button class="navLink" type="submit">Logout</button>

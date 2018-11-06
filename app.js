@@ -9,6 +9,7 @@ const csurf = require('csurf');
 
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
+const adminRoutes = require('./routes/admin');
 const db = require('./models');
 
 const app = express();
@@ -40,6 +41,9 @@ app.use(async (req, res, next) => {
     // No user on request
     return next();
   }
+  if(req.session.user.isAdmin) {
+    res.locals.isAdmin = true;
+  }
   // Otherwise user is present so set isAuthenticated
   res.locals.isAuthenticated = true;
   return next();
@@ -50,6 +54,7 @@ app.use(async (req, res, next) => {
   next();
 });
 
+app.use('/admin', adminRoutes);
 app.use(authRoutes);
 app.use(shopRoutes);
 
