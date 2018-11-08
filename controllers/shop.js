@@ -53,7 +53,13 @@ const postRemoveCart = async (req, res) => {
 };
 
 const getOrders = async (req, res) => {
- 
+  const orders = await db.Order.find({ 'user.userId': req.session.user._id });
+  console.log(orders);
+  res.render('shop/orders', {
+    pageTitle: 'Orders',
+    userEmail: req.session.user.email,
+    orders
+  });
 };
 
 const postOrder = async (req, res) => {
@@ -84,5 +90,6 @@ module.exports = {
   getCart,
   postCart,
   postRemoveCart,
+  getOrders,
   postOrder
 };

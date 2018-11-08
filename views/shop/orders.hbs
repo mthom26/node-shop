@@ -1,0 +1,16 @@
+<main>
+  <h1>Orders for: {{ userEmail }}</h1>
+    {{#each orders}}
+      <div style="margin: 1rem; border: 1px solid red;">
+        <h4>Order ID {{ _id }}</h4>
+        <div>
+        {{#each products}}
+          <h4>Product Data</h4>
+          <p>Name: {{ productData.name }}</p>
+          <p>Price: £{{ productData.price }}</p>
+          <p>Quantity: {{ quantity }}</p>
+        {{/each}}
+        </div>
+      </div>
+    {{/each}}
+</main>
