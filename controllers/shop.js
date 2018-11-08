@@ -27,7 +27,7 @@ const getProductById = async (req, res) => {
 const getCart = async (req, res) => {
   const user = await db.User.findById(req.session.user._id);
   await user.populate('cart.items.productId').execPopulate();
-  console.log(user.cart.items);
+  //console.log(user.cart.items);
   res.render('shop/cart', {
     pageTitle: 'Cart',
     cart: user.cart.items,
@@ -52,11 +52,37 @@ const postRemoveCart = async (req, res) => {
   res.redirect('/products');
 };
 
+const getOrders = async (req, res) => {
+ 
+};
+
+const postOrder = async (req, res) => {
+  const user = await db.User.findById(req.session.user._id);
+  await user.populate('cart.items.productId').execPopulate();
+  const products = user.cart.items.map(product => {
+    return {
+      quantity: product.quantity,
+      productData: product.productId._doc
+    }
+  });
+  const newOrder = new db.Order({
+    user: {
+      email: req.session.user.email,
+      userId: req.session.user._id
+    },
+    products
+  });
+  await newOrder.save();
+  // Should aslo clear user cart here
+  res.redirect('/cart');
+};
+
 module.exports = {
   getHome,
   getProducts,
   getProductById,
   getCart,
   postCart,
-  postRemoveCart
+  postRemoveCart,
+  postOrder
 };

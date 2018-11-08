@@ -7,7 +7,8 @@ const {
   getProductById,
   getCart,
   postCart,
-  postRemoveCart
+  postRemoveCart,
+  postOrder
 } = shopController;
 
 const router = express.Router();
@@ -17,6 +18,7 @@ router.get('/products/:productId', getProductById);
 router.get('/cart', getCart);
 router.post('/cart', postCart);
 router.post('/cart/remove', postRemoveCart);
+router.post('/orders/create', postOrder);
 router.get('/', getHome);
 
 module.exports = router;

@@ -17,4 +17,8 @@
         </form>
       </div>
     {{/each}}
+    <form style="display: inline;" action="/orders/create" method="POST">
+      <input type="hidden" name="_csrf" value="{{ csrfToken }}" />
+      <button type="submit">Create Order</button>
+    </form>
 </main>
