@@ -79,6 +79,7 @@ const postOrder = async (req, res) => {
     products
   });
   await newOrder.save();
+  await user.clearCart();
   // Should aslo clear user cart here
   res.redirect('/cart');
 };
