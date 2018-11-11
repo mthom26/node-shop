@@ -1,12 +1,34 @@
 @import 'reboot';
 @import 'config';
-@import 'nav';
-@import 'productCard';
+
+body {
+  background-color: $color-light;
+  color: $color-dark;
+}
+
+header::after {
+  content: "<div/>";
+  display: block;
+  height: 40px;
+}
+
+.container {
+  margin: $spacing-3 auto 0 auto;
+  max-width: 1080px;
+}
+
+.center-text {
+  text-align: center;
+}
 
 .productsContainer {
-  border: 1px solid orangered;
+  margin: $spacing-3 auto 0 auto;
+  max-width: 1080px;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2rem;
   justify-items: stretch;
 }
+
+@import 'nav';
+@import 'productCard';

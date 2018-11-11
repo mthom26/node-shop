@@ -271,27 +271,99 @@ template {
 [hidden] {
   display: none !important; }
 
+/* Media queries */
+body {
+  background-color: #f2f2f2;
+  color: #212121; }
+
+header::after {
+  content: "<div/>";
+  display: block;
+  height: 40px; }
+
+.container {
+  margin: 2rem auto 0 auto;
+  max-width: 1080px; }
+
+.center-text {
+  text-align: center; }
+
+.productsContainer {
+  margin: 2rem auto 0 auto;
+  max-width: 1080px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  justify-items: stretch; }
+
+.navContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  background: #212121; }
+
 .nav {
-  border: 1px solid red;
-  background: #212121;
   display: flex;
   justify-content: flex-end; }
 
+.navLogo {
+  padding: 0.5rem 1rem; }
+
+.navMenu {
+  cursor: pointer;
+  display: none;
+  color: #f2f2f2; }
+
+.navMain {
+  display: flex;
+  justify-content: space-between; }
+
 a.navLink {
   color: #f2f2f2;
-  padding: 0.4rem 1rem; }
+  padding: 0.5rem 1rem; }
 
 a.navLink:hover {
   color: #f2f2f2;
   text-decoration: none;
   background: rgba(242, 242, 242, 0.2); }
 
+form.navLink {
+  color: #f2f2f2;
+  padding: 0.5rem 1rem;
+  cursor: pointer; }
+  form.navLink button {
+    cursor: pointer;
+    padding: 0;
+    background: none;
+    border: none;
+    color: #f2f2f2; }
+
+form.navLink:hover {
+  color: #f2f2f2;
+  text-decoration: none;
+  background: rgba(242, 242, 242, 0.2); }
+
+@media screen and (max-width: 680px) {
+  .navContainer {
+    flex-direction: column; }
+  .nav {
+    flex-direction: column;
+    text-align: center;
+    transform: translateX(-100%);
+    background: #212121;
+    transition: transform 250ms ease-in-out; }
+    .nav.open {
+      transform: translateX(0%); }
+  .navMain {
+    background: #212121; }
+  .navContainer {
+    background: none; }
+  .navMenu {
+    display: flex;
+    align-items: center; } }
+
 .productCard {
   border: 1px solid red; }
-
-.productsContainer {
-  border: 1px solid orangered;
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  justify-items: stretch; }

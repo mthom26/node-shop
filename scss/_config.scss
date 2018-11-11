@@ -1,3 +1,16 @@
 $color-light: #f2f2f2;
 $color-dark: #212121;
 $color-primary: #f26554;
+
+$spacing-1: 0.5rem;
+$spacing-2: 1rem;
+$spacing-3: 2rem;
+$spacing-4: 3rem;
+$spacing-5: 5rem;
+
+/* Media queries */
+@mixin mediaSm {
+  @media screen and (max-width: 680px) {
+    @content;
+  }
+}

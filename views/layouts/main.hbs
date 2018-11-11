@@ -9,31 +9,38 @@
 </head>
 <body>
   <header>
-    <nav class="nav">
-      <a class="navLink" href="/">Home</a>
-      {{#if isAdmin }}
-      {{else}}
-      <a class="navLink" href="/products">Shop</a>
-      {{/if}}
+    <div class="navContainer">
+      <div class="navMain">
+        <a href="/" class="navLogo">Shop App</a>
+        <div id="navMenu" class="navMenu"><span>Menu</span></div>
+      </div>
       
-      {{#if isAuthenticated }}
-      {{#if isAdmin }}
-      <a class="navLink" href="/admin/add-product">Add Product</a>
-      <a class="navLink" href="/admin/products">Products</a>
-      {{else}}
-      <a class="navLink" href="/cart">Cart</a>
-      <a class="navLink" href="/orders">Orders</a>
-      {{/if}}
-      <form action="/logout" method="POST">
-        <input type="hidden" name="_csrf" value={{ csrfToken }} />
-        <button class="navLink" type="submit">Logout</button>
-      </form>
-      {{else}}
-      <a class="navLink" href="/login">Login</a>
-      <a class="navLink" href="/signup">Sign Up</a>
-      {{/if}}
-    </nav>
+      <nav id="nav" class="nav">
+        {{#if isAdmin }}
+        {{else}}
+        <a class="navLink" href="/products">Shop</a>
+        {{/if}}
+        
+        {{#if isAuthenticated }}
+        {{#if isAdmin }}
+        <a class="navLink" href="/admin/add-product">Add Product</a>
+        <a class="navLink" href="/admin/products">Products</a>
+        {{else}}
+        <a class="navLink" href="/cart">Cart</a>
+        <a class="navLink" href="/orders">Orders</a>
+        {{/if}}
+        <form class="navLink" action="/logout" method="POST">
+          <input type="hidden" name="_csrf" value={{ csrfToken }} />
+          <button type="submit">Logout</button>
+        </form>
+        {{else}}
+        <a class="navLink" href="/login">Login</a>
+        <a class="navLink" href="/signup">Sign Up</a>
+        {{/if}}
+      </nav>
+    </div>
   </header>
   {{{ body }}}
+  <script src="/scripts/main.js"></script>
 </body>
 </html>

@@ -1,19 +1,95 @@
-.nav {
-  border: 1px solid red;
+.navContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
   background: $color-dark;
+}
+
+.nav {  
   display: flex;
   justify-content: flex-end;
+}
+
+.navLogo {
+  padding: 0.5rem 1rem;
+}
+
+.navMenu {
+   cursor: pointer;
+   display: none;
+   color: $color-light;
+}
+//
+.navMain {
+  display: flex;
+  justify-content: space-between;
 }
 
 a {
   &.navLink {
     color: $color-light;
-    padding: 0.4rem 1rem;
+    padding: 0.5rem 1rem;
   }
 
   &.navLink:hover {
     color: $color-light;
     text-decoration: none;
     background: transparentize($color: $color-light, $amount: 0.8);
+  }
+}
+
+form {
+  &.navLink {
+    color: $color-light;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+
+    button {
+      cursor: pointer;
+      padding: 0;
+      background: none;
+      border: none;
+      color: $color-light;
+    }
+  }
+
+  &.navLink:hover {
+    color: $color-light;
+    text-decoration: none;
+    background: transparentize($color: $color-light, $amount: 0.8);
+  }
+}
+
+@include mediaSm {
+  .navContainer {
+    flex-direction: column;
+  }
+
+  .nav {
+    flex-direction: column;
+    text-align: center;
+    transform: translateX(-100%);
+    background: $color-dark;
+    transition: transform 250ms ease-in-out;
+
+    &.open {
+      transform: translateX(0%);
+    }
+  }
+
+  .navMain {
+    background: $color-dark;
+  }
+
+  .navContainer {
+    background: none;
+  }
+
+  .navMenu {
+    display: flex;
+    align-items: center;
   }
 }
