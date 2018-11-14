@@ -12,12 +12,13 @@ const postLogin = async (req, res) => {
   const user = await db.User.findOne({ email: email });
   if(!user) {
     // User not found
-    req.flash('error', 'Invalid Email/Password')
+    req.flash('error', 'Invalid Email/Password');
     return res.redirect('/login');
   }
   const passwordMatch = user.password === password;
   if(!passwordMatch) {
     // Password Incorrect
+    req.flash('error', 'Invalid Email/Password');
     return res.redirect('/login');
   }
   // User is logged in
@@ -28,7 +29,8 @@ const postLogin = async (req, res) => {
 
 const getSignUp = async (req, res) => {
   res.render('auth/signup', {
-    pageTitle: 'Sign Up'
+    pageTitle: 'Sign Up',
+    error: req.flash('error')
   });
 };
 
@@ -37,7 +39,7 @@ const postSignUp = async (req, res) => {
   const user = await db.User.findOne({ email: email });
   if(user) {
     // User with that email already exists
-    console.log('User already exists');
+    req.flash('error', 'That email is already taken.')
     return res.redirect('/signup');
   }
   const newUser = new db.User({
