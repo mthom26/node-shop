@@ -2,7 +2,8 @@ const db = require('../models');
 
 const getLogin = async (req, res) => {
   res.render('auth/login', {
-    pageTitle: 'Login'
+    pageTitle: 'Login',
+    error: req.flash('error')
   });
 };
 
@@ -11,6 +12,7 @@ const postLogin = async (req, res) => {
   const user = await db.User.findOne({ email: email });
   if(!user) {
     // User not found
+    req.flash('error', 'Invalid Email/Password')
     return res.redirect('/login');
   }
   const passwordMatch = user.password === password;

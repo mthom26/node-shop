@@ -30,5 +30,14 @@ header::after {
   justify-items: stretch;
 }
 
+.errorMessage {
+  padding: 0.5rem;
+  text-align: center;
+  border: 1px solid $color-error;
+  border-radius: 5px;
+  background: transparentize($color: $color-error, $amount: 0.5);
+  color: $color-light;
+}
+
 @import 'nav';
 @import 'productCard';

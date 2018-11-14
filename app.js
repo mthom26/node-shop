@@ -6,6 +6,7 @@ const path = require('path');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const csurf = require('csurf');
+const flash = require('connect-flash');
 
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
@@ -35,6 +36,7 @@ app.use(session({
 }));
 // csrf should be after the session
 app.use(csrfProtection);
+app.use(flash());
 
 app.use(async (req, res, next) => {
   if(!req.session.user) {

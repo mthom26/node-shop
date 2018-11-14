@@ -11,5 +11,8 @@
       <input type="hidden" name="_csrf" value={{ csrfToken }} />
       <button type="submit">Log In</button>
     </form>
+    {{#if error}}
+      {{>errorMessage error=error }}
+    {{/if}}
   </div>
 </main>
