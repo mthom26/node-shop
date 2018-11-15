@@ -1,3 +1,5 @@
+const bcrypt = require('bcryptjs');
+
 const db = require('../models');
 
 const getLogin = async (req, res) => {
@@ -15,7 +17,7 @@ const postLogin = async (req, res) => {
     req.flash('error', 'Invalid Email/Password');
     return res.redirect('/login');
   }
-  const passwordMatch = user.password === password;
+  const passwordMatch = await bcrypt.compare(password, user.password);
   if(!passwordMatch) {
     // Password Incorrect
     req.flash('error', 'Invalid Email/Password');
@@ -42,9 +44,10 @@ const postSignUp = async (req, res) => {
     req.flash('error', 'That email is already taken.')
     return res.redirect('/signup');
   }
+  const hash = await bcrypt.hash(password, 12);
   const newUser = new db.User({
     email,
-    password,
+    password: hash,
     isAdmin: false
   });
   newUser.save();
