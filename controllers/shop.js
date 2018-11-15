@@ -2,7 +2,8 @@ const db = require('../models');
 
 const getHome = async (req, res) => {
   res.render('shop/index', {
-    pageTitle: 'Home'
+    pageTitle: 'Home',
+    successMessage: req.flash('successMessage')
   });
 };
 

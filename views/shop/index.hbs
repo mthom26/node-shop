@@ -1,5 +1,8 @@
 <main>
   <div class="container center-text">
     <h1>Home Page</h1>
+    {{#if successMessage}}
+      {{>successMessage message=successMessage }}
+    {{/if}}
   </div>
 </main>
