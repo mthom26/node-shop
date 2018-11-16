@@ -24,13 +24,26 @@ const postLogin = async (req, res) => {
   if(!user) {
     // User not found
     req.flash('error', 'Invalid Email/Password');
-    return res.redirect('/login');
+    return (
+      res.render('auth/login', {
+        pageTitle: 'Login',
+        error: req.flash('error'),
+        prevInput: { email, password }
+      })
+    );
   }
+  
   const passwordMatch = await bcrypt.compare(password, user.password);
   if(!passwordMatch) {
     // Password Incorrect
     req.flash('error', 'Invalid Email/Password');
-    return res.redirect('/login');
+    return (
+      res.render('auth/login', {
+        pageTitle: 'Login',
+        error: req.flash('error'),
+        prevInput: { email, password }
+      })
+    );
   }
   // User is logged in
   req.session.user = user;
@@ -51,7 +64,13 @@ const postSignUp = async (req, res) => {
   if(user) {
     // User with that email already exists
     req.flash('error', 'That email is already taken.')
-    return res.redirect('/signup');
+    return (
+      res.render('auth/signup', {
+        pageTitle: 'Sign Up',
+        error: req.flash('error'),
+        prevInput: { email, password, passwordConfirm }
+      })
+    );
   }
   const hash = await bcrypt.hash(password, 12);
   const newUser = new db.User({
