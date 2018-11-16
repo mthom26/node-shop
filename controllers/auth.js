@@ -122,7 +122,7 @@ const getNewPassword = async (req, res) => {
   });
 
   if(!user) {
-    req.flash('error', 'That link is out of date.')
+    req.flash('error', 'That link is out of date/does not exist');
     res.redirect('/password-reset');
   }
   
@@ -139,12 +139,14 @@ const postNewPassword = async (req, res) => {
 
   const user = await db.User.findById(userId);
   if(!user) {
-    req.flash('error', 'That User could not be found.')
+    req.flash('error', 'That User could not be found.');
     res.redirect('/password-reset');
   }
 
   const hash = await bcrypt.hash(password, 12);
   user.password = hash;
+  user.resetToken = null;
+  user.resetTokenExpiration = null;
   await user.save();
 
   req.flash('successMessage', 'You successfully reset your password!');
