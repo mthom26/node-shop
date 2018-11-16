@@ -43,12 +43,30 @@ app.use(async (req, res, next) => {
     // No user on request
     return next();
   }
+
+  try {
+    const user = await db.User.findById(req.session.user._id);
+    if(!user) {
+      // User could not be found in database
+      return next();
+    }
+    req.user = user;
+    res.locals.isAuthenticated = true;
+    if(user.isAdmin) {
+      res.locals.isAdmin = true;
+    }
+    next();
+  } catch(err) {
+    throw new Error(err);
+  }
+  /*
   if(req.session.user.isAdmin) {
     res.locals.isAdmin = true;
   }
   // Otherwise user is present so set isAuthenticated
   res.locals.isAuthenticated = true;
   return next();
+  */
 });
 
 app.use(async (req, res, next) => {

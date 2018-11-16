@@ -26,7 +26,7 @@ const getProductById = async (req, res) => {
 };
 
 const getCart = async (req, res) => {
-  const user = await db.User.findById(req.session.user._id);
+  const user = await db.User.findById(req.user._id);
   await user.populate('cart.items.productId').execPopulate();
   //console.log(user.cart.items);
   res.render('shop/cart', {
@@ -37,8 +37,8 @@ const getCart = async (req, res) => {
 };
 
 const postCart = async (req, res) => {
-  console.log(req.session.user._id);
-  const user = await db.User.findById(req.session.user._id);
+  console.log(req.user._id);
+  const user = await db.User.findById(req.user._id);
   const { id } = req.body;
   await user.addToCart(id);
   //console.log(`Controller: ${req.body.id}`);
@@ -46,7 +46,7 @@ const postCart = async (req, res) => {
 };
 
 const postRemoveCart = async (req, res) => {
-  const user = await db.User.findById(req.session.user._id);
+  const user = await db.User.findById(req.user._id);
   const { id } = req.body;
   await user.removeFromCart(id);
   //console.log(`Controller: ${req.body.id}`);
@@ -54,17 +54,17 @@ const postRemoveCart = async (req, res) => {
 };
 
 const getOrders = async (req, res) => {
-  const orders = await db.Order.find({ 'user.userId': req.session.user._id });
+  const orders = await db.Order.find({ 'user.userId': req.user._id });
   console.log(orders);
   res.render('shop/orders', {
     pageTitle: 'Orders',
-    userEmail: req.session.user.email,
+    userEmail: req.user.email,
     orders
   });
 };
 
 const postOrder = async (req, res) => {
-  const user = await db.User.findById(req.session.user._id);
+  const user = await db.User.findById(req.user._id);
   await user.populate('cart.items.productId').execPopulate();
   const products = user.cart.items.map(product => {
     return {
@@ -74,8 +74,8 @@ const postOrder = async (req, res) => {
   });
   const newOrder = new db.Order({
     user: {
-      email: req.session.user.email,
-      userId: req.session.user._id
+      email: req.user.email,
+      userId: req.user._id
     },
     products
   });

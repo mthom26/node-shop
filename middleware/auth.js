@@ -1,5 +1,5 @@
 const isAuthenticated = (req, res, next) => {
-  if(req.session.user) {
+  if(req.user) {
     return next();
   }
   console.log('No User');
@@ -7,8 +7,8 @@ const isAuthenticated = (req, res, next) => {
 };
 
 const isAdmin = (req, res, next) => {
-  if(req.session.user) {
-    if(req.session.user.isAdmin) {
+  if(req.user) {
+    if(req.user.isAdmin) {
       return next();
     }
     console.log('Not Admin');
