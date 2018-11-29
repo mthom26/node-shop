@@ -15,11 +15,14 @@ const getAddProduct = async (req, res) => {
 };
 
 const postAddProduct = async (req, res) => {
-  const { name, price, imageUrl, description } = req.body;
+  const { name, price, description } = req.body;
+  const image = req.file;
+  const imageUrl = image ? image.path : `https://robohash.org/${name}`;
+
   const newProduct = new db.Product({
     name,
     price,
-    imageUrl: `https://robohash.org/${name}`,
+    imageUrl,
     description,
     userId: req.session.user._id
   });
@@ -39,7 +42,12 @@ const getEditProduct = async (req, res) => {
 
 const postEditProduct = async (req, res) => {
   const { productId } = req.params;
-  const { name, price, imageUrl, description } = req.body;
+  const { name, price, description } = req.body;
+  const image = req.file;
+  // Should check here whether a new image was attached, if not then dont update 
+  // the product imageUrl below in 'findByIdAndUpdate'
+  const imageUrl = image ? image.path : `https://robohash.org/${name}`;
+
   await db.Product.findByIdAndUpdate(productId, {
     name,
     price,

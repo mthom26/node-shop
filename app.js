@@ -7,6 +7,7 @@ const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
 const csurf = require('csurf');
 const flash = require('connect-flash');
+const multer = require('multer');
 
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
@@ -20,6 +21,27 @@ const sessionStore = new MongoDBStore({
 });
 const csrfProtection = csurf();
 
+// Configure multer file storage
+const fileStorage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'images');
+  },
+  filename: (req, file, cb) => {
+    // Should add unique hash to filename here to prevent same name errors
+    cb(null, `${file.originalname}`);
+  }
+});
+
+const fileFilter = (req, file, cb) => {
+  if(file.mimetype === 'image/png' || file.mimetype === 'image/jpg') {
+    //accept file
+    cb(null, true);
+  } else {
+    // reject file
+    cb(null, false);
+  }
+};
+
 app.engine('hbs', expressHbs({
   defaultLayout: 'main',
   extname: 'hbs'
@@ -27,6 +49,7 @@ app.engine('hbs', expressHbs({
 app.set('view engine', 'hbs');
 
 app.use(bodyParser.urlencoded());
+app.use(multer({ storage: fileStorage, fileFilter }).single('image')); // forms will be sending an input named 'image'
 app.use(express.static(path.join(path.dirname(process.mainModule.filename), 'public')));
 app.use(session({
   secret: process.env.SESSION_SECRET,
