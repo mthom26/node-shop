@@ -8,6 +8,7 @@ const MongoDBStore = require('connect-mongodb-session')(session);
 const csurf = require('csurf');
 const flash = require('connect-flash');
 const multer = require('multer');
+const nanoid = require('nanoid');
 
 const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
@@ -27,8 +28,8 @@ const fileStorage = multer.diskStorage({
     cb(null, 'images');
   },
   filename: (req, file, cb) => {
-    // Should add unique hash to filename here to prevent same name errors
-    cb(null, `${file.originalname}`);
+    const randomString = nanoid(8);
+    cb(null, `${randomString}-${file.originalname}`);
   }
 });
 
