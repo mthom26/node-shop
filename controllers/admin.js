@@ -17,6 +17,8 @@ const getAddProduct = async (req, res) => {
 const postAddProduct = async (req, res) => {
   const { name, price, description } = req.body;
   const image = req.file;
+  // TODO - add default product image instead of robohash which won't work
+  // due to adding a '/' on the img src on the productCard partial
   const imageUrl = image ? image.path : `https://robohash.org/${name}`;
 
   const newProduct = new db.Product({
@@ -44,16 +46,16 @@ const postEditProduct = async (req, res) => {
   const { productId } = req.params;
   const { name, price, description } = req.body;
   const image = req.file;
-  // Should check here whether a new image was attached, if not then dont update 
-  // the product imageUrl below in 'findByIdAndUpdate'
-  const imageUrl = image ? image.path : `https://robohash.org/${name}`;
+  
+  const product = await db.Product.findById(productId);
+  if(image) {
+    product.imageUrl = image.path;
+  }
+  product.name = name;
+  product.price = price;
+  product.description = description;
 
-  await db.Product.findByIdAndUpdate(productId, {
-    name,
-    price,
-    imageUrl,
-    description
-  });
+  await product.save();
   res.redirect('/admin/products');
 };
 
