@@ -52,6 +52,7 @@ app.set('view engine', 'hbs');
 app.use(bodyParser.urlencoded());
 app.use(multer({ storage: fileStorage, fileFilter }).single('image')); // forms will be sending an input named 'image'
 app.use(express.static(path.join(path.dirname(process.mainModule.filename), 'public')));
+app.use('/images', express.static(path.join(path.dirname(process.mainModule.filename), 'images')));
 app.use(session({
   secret: process.env.SESSION_SECRET,
   resave: false,
