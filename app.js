@@ -14,6 +14,7 @@ const authRoutes = require('./routes/auth');
 const shopRoutes = require('./routes/shop');
 const adminRoutes = require('./routes/admin');
 const db = require('./models');
+const { get404 } = require('./controllers/error');
 
 const app = express();
 const sessionStore = new MongoDBStore({
@@ -102,6 +103,8 @@ app.use(async (req, res, next) => {
 app.use('/admin', adminRoutes);
 app.use(authRoutes);
 app.use(shopRoutes);
+
+app.use(get404);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
