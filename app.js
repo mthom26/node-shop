@@ -106,6 +106,14 @@ app.use(shopRoutes);
 
 app.use(get404);
 
+//Error handling
+app.use((error, req, res, next) => {
+  res.status(500).render('error/500', {
+    pageTitle: 'Error',
+    error
+  });
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
   console.log(`App listening on PORT: ${PORT}`);

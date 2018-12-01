@@ -7,82 +7,106 @@ const getHome = async (req, res) => {
   });
 };
 
-const getProducts = async (req, res) => {
-  const products = await db.Product.find();
-  //console.log(products);
-  res.render('shop/products', {
-    pageTitle: 'Products',
-    products
-  });
+const getProducts = async (req, res, next) => {
+  try {
+    const products = await db.Product.find();
+    res.render('shop/products', {
+      pageTitle: 'Products',
+      products
+    });
+  } catch(err) {
+    return next(err);
+  }
 };
 
-const getProductById = async (req, res) => {
-  const { productId } = req.params;
-  const product = await db.Product.findById(productId);
-  res.render('shop/productDetail', {
-    pageTitle: `Product Details: ${product.name}`,
-    product
-  });
+const getProductById = async (req, res, next) => {
+  try {
+    const { productId } = req.params;
+    const product = await db.Product.findById(productId);
+    res.render('shop/productDetail', {
+      pageTitle: `Product Details: ${product.name}`,
+      product
+    });
+  } catch(err) {
+    return next(err);
+  }
 };
 
-const getCart = async (req, res) => {
-  const user = await db.User.findById(req.user._id);
-  await user.populate('cart.items.productId').execPopulate();
-  //console.log(user.cart.items);
-  res.render('shop/cart', {
-    pageTitle: 'Cart',
-    cart: user.cart.items,
-    userEmail: user.email
-  });
+const getCart = async (req, res, next) => {
+  try {
+    const user = await db.User.findById(req.user._id);
+    await user.populate('cart.items.productId').execPopulate();
+    res.render('shop/cart', {
+      pageTitle: 'Cart',
+      cart: user.cart.items,
+      userEmail: user.email
+    });
+  } catch(err) {
+    return next(err);
+  }
 };
 
-const postCart = async (req, res) => {
-  console.log(req.user._id);
-  const user = await db.User.findById(req.user._id);
-  const { id } = req.body;
-  await user.addToCart(id);
-  //console.log(`Controller: ${req.body.id}`);
-  res.redirect('/products');
+const postCart = async (req, res, next) => {
+  try {
+    console.log(req.user._id);
+    const user = await db.User.findById(req.user._id);
+    const { id } = req.body;
+    await user.addToCart(id);
+    res.redirect('/products');
+  } catch(err) {
+    return next(err);
+  }
 };
 
-const postRemoveCart = async (req, res) => {
-  const user = await db.User.findById(req.user._id);
-  const { id } = req.body;
-  await user.removeFromCart(id);
-  //console.log(`Controller: ${req.body.id}`);
-  res.redirect('/products');
+const postRemoveCart = async (req, res, next) => {
+  try {
+    const user = await db.User.findById(req.user._id);
+    const { id } = req.body;
+    await user.removeFromCart(id);
+    res.redirect('/products');
+  } catch(err) {
+    return next(err);
+  }
 };
 
-const getOrders = async (req, res) => {
-  const orders = await db.Order.find({ 'user.userId': req.user._id });
-  console.log(orders);
-  res.render('shop/orders', {
-    pageTitle: 'Orders',
-    userEmail: req.user.email,
-    orders
-  });
+const getOrders = async (req, res, next) => {
+  try {
+    const orders = await db.Order.find({ 'user.userId': req.user._id });
+    console.log(orders);
+    res.render('shop/orders', {
+      pageTitle: 'Orders',
+      userEmail: req.user.email,
+      orders
+    });
+  } catch(err) {
+    return next(err);
+  }
 };
 
-const postOrder = async (req, res) => {
-  const user = await db.User.findById(req.user._id);
-  await user.populate('cart.items.productId').execPopulate();
-  const products = user.cart.items.map(product => {
-    return {
-      quantity: product.quantity,
-      productData: product.productId._doc
-    }
-  });
-  const newOrder = new db.Order({
-    user: {
-      email: req.user.email,
-      userId: req.user._id
-    },
-    products
-  });
-  await newOrder.save();
-  await user.clearCart();
-  // Should aslo clear user cart here
-  res.redirect('/cart');
+const postOrder = async (req, res, next) => {
+  try {
+    const user = await db.User.findById(req.user._id);
+    await user.populate('cart.items.productId').execPopulate();
+    const products = user.cart.items.map(product => {
+      return {
+        quantity: product.quantity,
+        productData: product.productId._doc
+      }
+    });
+    const newOrder = new db.Order({
+      user: {
+        email: req.user.email,
+        userId: req.user._id
+      },
+      products
+    });
+    await newOrder.save();
+    await user.clearCart();
+    
+    res.redirect('/cart');
+  } catch(err) {
+    return next(err);
+  }
 };
 
 module.exports = {
