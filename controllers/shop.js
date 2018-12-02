@@ -113,21 +113,34 @@ const postOrder = async (req, res, next) => {
 };
 
 const getInvoice = async (req, res, next) => {
-  const { orderId } = req.params;
-  // TODO - add orderId to invoiceName after invoices are generated with proper names
-  const invoiceName = `order.pdf`;
-  const invoicePath = path.join('data', 'invoices', invoiceName);
+  try {
+    const { orderId } = req.params;
+    // TODO - add orderId to invoiceName after invoices are generated with proper names
+    const invoiceName = `order.pdf`;
+    const invoicePath = path.join('data', 'invoices', invoiceName);
 
-  fs.readFile(invoicePath, (err, data) => {
-    if(err) {
-      return next(err);
+    const order = await db.Order.findById(orderId);
+    if(!order) {
+      return next(new Error('An order with that ID was not found!'));
     }
-    res.setHeader('Content-Type', 'application/pdf');
-    // Content-Disposition attachment not working, see - 
-    // https://stackoverflow.com/questions/26737883/content-dispositionattachment-not-triggering-download-dialog
-    res.setHeader('Content-Disposition', 'attachment; filename="hello.pdf"');
-    res.send(data);
-  });
+    // Check if user is authorised
+    if(req.user._id.toString() !== order.user.userId.toString()) {
+      return next(new Error('You are not authorised to view that invoice.'))
+    }
+    
+    fs.readFile(invoicePath, (err, data) => {
+      if(err) {
+        return next(err);
+      }
+      res.setHeader('Content-Type', 'application/pdf');
+      // Content-Disposition attachment not working, see - 
+      // https://stackoverflow.com/questions/26737883/content-dispositionattachment-not-triggering-download-dialog
+      res.setHeader('Content-Disposition', 'attachment; filename="hello.pdf"');
+      res.send(data);
+    });
+  } catch(err) {
+    return next(err);
+  }
 };
 
 module.exports = {

@@ -3,7 +3,7 @@
     {{#each orders}}
       <div style="margin: 1rem; border: 1px solid red;">
         <h4>Order ID {{ _id }}</h4>
-        <a href="/orders/{{ _id }}">Download Invoice</a>
+        <a href="/orders/{{ _id }}" target="__blank">Download Invoice</a>
         <div>
         {{#each products}}
           <h4>Product Data</h4>
