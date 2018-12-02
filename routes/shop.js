@@ -10,7 +10,8 @@ const {
   postCart,
   postRemoveCart,
   getOrders,
-  postOrder
+  postOrder,
+  getInvoice
 } = shopController;
 const {
   isAuthenticated
@@ -25,6 +26,7 @@ router.post('/cart', isAuthenticated, postCart);
 router.post('/cart/remove', isAuthenticated, postRemoveCart);
 router.get('/orders', isAuthenticated, getOrders);
 router.post('/orders/create', isAuthenticated, postOrder);
+router.get('/orders/:orderId', isAuthenticated, getInvoice);
 router.get('/', getHome);
 
 module.exports = router;

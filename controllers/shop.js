@@ -1,3 +1,6 @@
+const fs = require('fs');
+const path = require('path');
+
 const db = require('../models');
 
 const getHome = async (req, res) => {
@@ -109,6 +112,24 @@ const postOrder = async (req, res, next) => {
   }
 };
 
+const getInvoice = async (req, res, next) => {
+  const { orderId } = req.params;
+  // TODO - add orderId to invoiceName after invoices are generated with proper names
+  const invoiceName = `order.pdf`;
+  const invoicePath = path.join('data', 'invoices', invoiceName);
+
+  fs.readFile(invoicePath, (err, data) => {
+    if(err) {
+      return next(err);
+    }
+    res.setHeader('Content-Type', 'application/pdf');
+    // Content-Disposition attachment not working, see - 
+    // https://stackoverflow.com/questions/26737883/content-dispositionattachment-not-triggering-download-dialog
+    res.setHeader('Content-Disposition', 'attachment; filename="hello.pdf"');
+    res.send(data);
+  });
+};
+
 module.exports = {
   getHome,
   getProducts,
@@ -117,5 +138,6 @@ module.exports = {
   postCart,
   postRemoveCart,
   getOrders,
-  postOrder
+  postOrder,
+  getInvoice
 };
